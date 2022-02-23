@@ -1,5 +1,5 @@
 import socket as skt
-import operacion as op
+import funciones_operaciones.operacion as op
 #import menu as m
 
 TCP_IP = '127.0.0.1'

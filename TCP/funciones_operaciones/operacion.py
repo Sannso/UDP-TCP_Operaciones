@@ -11,6 +11,7 @@ def menu():
 
 def typeOfOperation(op):
     op = str(op).strip()
+    op = str(op).lower()
     ret = ""
 
     for a in op:
@@ -18,7 +19,7 @@ def typeOfOperation(op):
             ret = "suma"
         elif(a == "-"):
             ret = "resta"
-        elif(a == "*"):
+        elif(a == "*" or a == "x"):
             ret = "mult"
         elif(a == "/"):
             ret = "divi"
