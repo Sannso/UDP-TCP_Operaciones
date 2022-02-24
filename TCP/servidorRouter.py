@@ -19,6 +19,12 @@ TCP_IP_MULTI = '127.0.0.4'
 TCP_PORT_DIV = 5013
 TCP_IP_DIV = '127.0.0.5'
 
+TCP_PORT_POTE = 5014
+TCP_IP_POTE = '127.0.0.6'
+
+TCP_PORT_LOG = 5015
+TCP_IP_LOG = '127.0.0.7'
+
 s = skt.socket(skt.AF_INET, skt.SOCK_STREAM)
 s.bind((TCP_IP, TCP_PORT))
 s.setsockopt(skt.SOL_SOCKET, skt.SO_REUSEADDR, 1)
@@ -69,6 +75,12 @@ while adminclose:
 
         elif oprt == "divi":
             conn.send(generateConnection(received, TCP_PORT_DIV, TCP_IP_DIV).encode("UTF-8"))
+
+        elif oprt == "pote":
+            conn.send(generateConnection(received, TCP_PORT_POTE, TCP_IP_POTE).encode("UTF-8"))
+
+        elif oprt == "log":
+            conn.send(generateConnection(received, TCP_PORT_LOG, TCP_IP_LOG).encode("UTF-8"))
         conn.close()
     
     print("cierre ciclo conexion")

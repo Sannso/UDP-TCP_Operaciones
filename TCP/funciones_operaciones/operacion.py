@@ -26,7 +26,7 @@ def typeOfOperation(op):
         elif(a == "^"):
             ret = "pote"
         elif(a == "l"):
-            ret = "l"
+            ret = "log"
         
     if(len(ret) == 0):
         return None
