@@ -1,8 +1,9 @@
 from socket import *
+from math import log10
 
 BUFFER_SIZE = 2048
 UDP_IP = "127.0.0.1"
-UDP_PORT = 5010
+UDP_PORT = 5016
 ENCODETYPE = "UTF-8"
 ROUTER_IP = "127.0.0.1"
 ROUTER_PORT = 5009
@@ -15,7 +16,7 @@ def checkConnection():
     connected = False
 
     while not connected:
-        sock.sendto('CONECTADO#SUMA'.encode(ENCODETYPE), (ROUTER_IP, ROUTER_PORT))
+        sock.sendto('CONECTADO#LOGARITMO'.encode(ENCODETYPE), (ROUTER_IP, ROUTER_PORT))
 
         try:
             msg = sock.recv(BUFFER_SIZE)
@@ -39,9 +40,9 @@ def main():
         if '#' in msg:
             sock.sendto('CONECTADO'.encode(ENCODETYPE), (ROUTER_IP, ROUTER_PORT))
         else:
-            values = msg.split(' + ')
+            values = msg.split('l ')
 
-            result = int(values[0]) + int(values[1])
+            result = log10(int(values[1]))
 
             if checkConnection():
                 sock.sendto(f'RESULTADO!{result}'.encode(ENCODETYPE), clientAddress)
