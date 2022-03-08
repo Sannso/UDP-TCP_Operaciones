@@ -1,0 +1,7 @@
+Instalar pip on Windows:
+
+https://www.liquidweb.com/kb/install-pip-windows/
+
+Instalar jsonrpc:
+
+pip install jsonrpclib
