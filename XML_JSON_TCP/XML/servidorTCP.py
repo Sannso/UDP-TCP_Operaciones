@@ -1,9 +1,11 @@
-from ast import Return
 import socket as skt
+import xmltodict
+from dict2xml import dict2xml
 import funciones_operaciones.operacion as op
 
 # Importacion de los calculos
 import funciones_operaciones.calculos as c
+
 
 
 TCP_IP = '127.0.0.1'
@@ -24,6 +26,11 @@ while adminclose:
     print("inicio ciclo conexion")
     conn, addr = s.accept() # Direccion: addr[0], Puerto: addr[1])
     received = conn.recv(BUFFER_SIZE).decode(ENCODETYPE)
+    # Decodificacion
+    var = xmltodict.parse(received)
+    received = var["all"]["operacion"]
+
+    print("#Dato recibido y transformado:",received)
     if (received == "closeConnection"):
         conn.close()
     
@@ -33,26 +40,30 @@ while adminclose:
 
     elif received:
         oprt = op.typeOfOperation(received)
+        print("Operacion:", oprt)
         if oprt == None:
-            conn.send("No se puede identificar la operacion".encode("UTF-8"))
+            mess = {"operacion":"No se puede identificar la operacion"}
+            none = dict2xml(mess, wrap="all")
+            conn.send(none.encode("UTF-8"))
             
+        # Codificacion    
         elif oprt == "suma":
-            conn.send((c.suma(received)).encode("UTF-8"))
+            conn.send(dict2xml((c.suma(received)), wrap="all").encode("UTF-8"))
 
         elif oprt == "resta":
-            conn.send((c.resta(received)).encode("UTF-8"))
+            conn.send(dict2xml((c.resta(received)), wrap="all").encode("UTF-8"))
 
         elif oprt == "mult":
-            conn.send((c.multiplicacion(received)).encode("UTF-8"))
+            conn.send(dict2xml((c.multiplicacion(received)), wrap="all").encode("UTF-8"))
 
         elif oprt == "divi":
-            conn.send((c.division(received)).encode("UTF-8"))
+            conn.send(dict2xml((c.division(received)), wrap="all").encode("UTF-8"))
 
         elif oprt == "pote":
-            conn.send((c.potencia(received)).encode("UTF-8"))
+            conn.send(dict2xml((c.potencia(received)), wrap="all").encode("UTF-8"))
 
         elif oprt == "log":
-            conn.send((c.log(received)).encode("UTF-8"))
+            conn.send(dict2xml((c.log(received)), wrap="all").encode("UTF-8"))
         conn.close()
     
     print("cierre ciclo conexion")

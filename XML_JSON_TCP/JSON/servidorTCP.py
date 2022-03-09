@@ -1,5 +1,5 @@
-from ast import Return
 import socket as skt
+import json
 import funciones_operaciones.operacion as op
 
 # Importacion de los calculos
@@ -24,6 +24,10 @@ while adminclose:
     print("inicio ciclo conexion")
     conn, addr = s.accept() # Direccion: addr[0], Puerto: addr[1])
     received = conn.recv(BUFFER_SIZE).decode(ENCODETYPE)
+    # Decodificacion
+    var = json.loads(received)
+    received = var["operacion"]
+    print("#Dato recibido y transformado:",received)
     if (received == "closeConnection"):
         conn.close()
     
@@ -33,26 +37,29 @@ while adminclose:
 
     elif received:
         oprt = op.typeOfOperation(received)
+        print("Operacion:", oprt)
         if oprt == None:
-            conn.send("No se puede identificar la operacion".encode("UTF-8"))
+            none = json.dumps({"operacion":"No se puede identificar la operacion"})
+            conn.send(none.encode("UTF-8"))
             
+        # Codificacion    
         elif oprt == "suma":
-            conn.send((c.suma(received)).encode("UTF-8"))
+            conn.send(json.dumps((c.suma(received))).encode("UTF-8"))
 
         elif oprt == "resta":
-            conn.send((c.resta(received)).encode("UTF-8"))
+            conn.send(json.dumps((c.resta(received))).encode("UTF-8"))
 
         elif oprt == "mult":
-            conn.send((c.multiplicacion(received)).encode("UTF-8"))
+            conn.send(json.dumps((c.multiplicacion(received))).encode("UTF-8"))
 
         elif oprt == "divi":
-            conn.send((c.division(received)).encode("UTF-8"))
+            conn.send(json.dumps((c.division(received))).encode("UTF-8"))
 
         elif oprt == "pote":
-            conn.send((c.potencia(received)).encode("UTF-8"))
+            conn.send(json.dumps((c.potencia(received))).encode("UTF-8"))
 
         elif oprt == "log":
-            conn.send((c.log(received)).encode("UTF-8"))
+            conn.send(json.dumps((c.log(received))).encode("UTF-8"))
         conn.close()
     
     print("cierre ciclo conexion")

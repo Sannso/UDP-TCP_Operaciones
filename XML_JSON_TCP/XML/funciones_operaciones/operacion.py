@@ -1,13 +1,11 @@
-
-
 def menu():
     print("------ OPERACIONES -----------" +"\n"+
-        "Solo es valido suma, resta, multipicacion, division, "+
-        "potenciacion y logaritmacion\n\n")
+        "Solo es valido suma(+), resta(-), multipicacion(* x), division(/), "+
+        "potenciacion(^) y logaritmacion(l()  log())\n\n")
 
     selection = input("Ingrese su operacion: ")
     print("\n------------------------------------\n\n")
-    return selection if len(selection) > 0 else " "
+    return {"operacion":selection} if len(selection) > 0 else " "
 
 def typeOfOperation(op):
     op = str(op).strip()
